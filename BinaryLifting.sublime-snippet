@@ -1,0 +1,102 @@
+<snippet>
+	<content><![CDATA[
+struct Tree{
+    ll n, l;
+    vvi adj;
+    ll timer;
+    vi tin, tout, dist;
+    vvi up;
+
+    Tree() {}
+
+    Tree(vvi Adj){
+        n = Adj.size();
+        adj = Adj;
+        preprocess(0);
+    }
+
+    Tree(ll N){
+        n = N;
+        adj.resize(n);
+        getedges();
+        preprocess(0);
+    }
+
+    void connect(ll x, ll y){
+        x--;y--;
+        adj[x].pb(y);
+        adj[y].pb(x);
+    }
+
+    void getedges(){
+        ll x,y;
+        for(int i=0;i<n-1;i++){
+            cin>>x>>y;
+            connect(x,y);
+        }
+    }
+
+    void dfs(ll v, ll p)
+    {
+        if(v!=p){
+            dist[v]=dist[p]+1;
+        }
+        tin[v] = ++timer;
+        up[v][0] = p;
+        for (ll i = 1; i <= l; ++i)
+            up[v][i] = up[up[v][i-1]][i-1];
+
+        for (ll u : adj[v]) {
+            if (u != p)
+                dfs(u, v);
+        }
+
+        tout[v] = ++timer;
+    }
+
+    bool is_ancestor(ll u, ll v)
+    {
+        return tin[u] <= tin[v] && tout[u] >= tout[v];
+    }
+
+    void preprocess(ll root) {
+        dist.resize(n);
+        tin.resize(n);
+        tout.resize(n);
+        timer = 0;
+        l = ceil(log2(n));
+        up.assign(n, vi(l + 1));
+        dfs(root, root);
+    }
+
+    ll lca(ll u, ll v)
+    {
+        if (is_ancestor(u, v))
+            return u;
+        if (is_ancestor(v, u))
+            return v;
+        for (ll i = l; i >= 0; --i) {
+            if (!is_ancestor(up[u][i], v))
+                u = up[u][i];
+        }
+        return up[u][0];
+    }
+
+    ll distance(ll u, ll v){
+        return dist[u] + dist[v] - 2*dist[lca(u,v)];
+    }
+
+    ll distance(ll u){
+        return dist[u];
+    }
+
+};
+
+
+]]></content>
+	 <tabTrigger>lca</tabTrigger>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>hello</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

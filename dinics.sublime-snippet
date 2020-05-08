@@ -1,0 +1,77 @@
+<snippet>
+	<content><![CDATA[
+const ll maxnodes = $1;
+
+ll nodes = maxnodes, src, dest;
+ll dist[maxnodes], q[maxnodes], work[maxnodes];
+
+struct Edge {
+  ll to, rev;
+  ll f, cap;
+};
+
+vector<Edge> g[maxnodes];
+
+    // Adds bidirectional edge
+void addedge(ll s, ll t, ll cap){
+    Edge a = {t, (ll)g[t].size(), 0, cap};
+    Edge b = {s, (ll)g[s].size(), 0, cap};
+    g[s].push_back(a);
+    g[t].push_back(b);
+}
+
+bool dinic_bfs() {
+    fill(dist, dist + nodes, -1);
+    dist[src] = 0;
+    ll qt = 0;
+    q[qt++] = src;
+    for (ll qh = 0; qh < qt; qh++) {
+        ll u = q[qh];
+        for (ll j = 0; j < (ll) g[u].size(); j++) {
+            Edge &e = g[u][j];
+            ll v = e.to;
+            if (dist[v] < 0 && e.f < e.cap) {
+                dist[v] = dist[u] + 1;
+                q[qt++] = v;
+            }
+        }
+    }
+    return dist[dest] >= 0;
+}
+
+ll dinic_dfs(ll u, ll f) {
+    if (u == dest)
+        return f;
+    for (ll &i = work[u]; i < (ll) g[u].size(); i++) {
+        Edge &e = g[u][i];
+        if (e.cap <= e.f) continue;
+        ll v = e.to;
+        if (dist[v] == dist[u] + 1) {
+            ll df = dinic_dfs(v, min(f, e.cap - e.f));
+            if (df > 0) {
+                e.f += df;
+                g[v][e.rev].f -= df;
+                return df;
+            }
+        }
+    }
+    return 0;
+}
+
+ll maxflow(ll _src, ll _dest) {
+    src = _src;
+    dest = _dest;
+    ll result = 0;
+    while (dinic_bfs()) {
+        fill(work, work + nodes, 0);
+        while (ll delta = dinic_dfs(src, LLMAX))
+            result += delta;
+    }
+    return result;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dinic</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

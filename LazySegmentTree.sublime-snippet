@@ -1,0 +1,128 @@
+<snippet>
+	<content><![CDATA[
+struct LazySegmentTree
+{
+    // Change these functions
+    ll null=0,lnull=0,init=0;
+    ll combine(ll p,ll q)
+    {
+        return p+q;
+    }
+    ll getValue(ll v)
+    {
+        if(lazy[v]!=lnull) return len[v]*lazy[v];
+        return st[v];
+    }
+    void modifyLazy(ll v,ll x)
+    {
+        lazy[v]=x;
+    }
+ 
+    // Constructors and utilities
+    vi st,lazy,len;
+    ll n;
+    inline ll left(ll x)  
+    {
+        return x<<1;
+    }
+    inline ll right(ll x)
+    {
+        return (x<<1)|1;
+    }
+    inline ll mid(ll l,ll r)
+    {
+        return (l+r)/2;
+    }
+ 
+    LazySegmentTree() {}
+    LazySegmentTree(ll N)
+    {
+        n=N;
+        st.assign(4*n,0);
+        lazy.assign(4*n,lnull);
+        len.resize(4*n);
+        vi a(n,init);
+        build(a,1,0,n-1);
+    }
+    LazySegmentTree(vi &a)
+    {
+        n=a.size();
+        st.assign(4*n,0);
+        lazy.assign(4*n,lnull);
+        len.resize(4*n);
+        build(a,1,0,n-1);
+    }
+    void build(vi &a,ll v,ll tl,ll tr)
+    {
+        len[v]=tr-tl+1;
+        if(tl==tr)
+        {
+            st[v]=a[tl];
+            return;
+        }
+        ll tm=mid(tl,tr);
+        build(a,left(v),tl,tm);
+        build(a,right(v),tm+1,tr);
+        combine(v);
+    }
+ 
+    // Segtree functions
+    void combine(ll v)
+    {
+        st[v]=combine(getValue(left(v)),getValue(right(v)));
+    }
+    void push(ll v)
+    {
+        if(lazy[v]==lnull)    return;
+        st[v]=getValue(v);
+        modifyLazy(left(v),lazy[v]);
+        modifyLazy(right(v),lazy[v]);
+        lazy[v]=lnull;
+    }
+ 
+    void update(ll v,ll tl,ll tr,ll l,ll r,ll x)
+    {
+        if(l>r) return;
+        if(tl==l && tr==r)
+        {
+            modifyLazy(v,x);
+            return;
+        }
+        push(v);
+        ll tm=mid(tl,tr);
+        update(left(v),tl,tm,l,min(r,tm),x);
+        update(right(v),tm+1,tr,max(l,tm+1),r,x);
+        combine(v);
+    }
+    ll query(ll v,ll tl,ll tr,ll l,ll r)
+    {
+        if(l>r) return null;
+        if(tl==l && tr==r)
+            return getValue(v);
+        push(v);
+        ll tm=mid(tl,tr);
+        ll resl=query(left(v),tl,tm,l,min(r,tm));
+        ll resr=query(right(v),tm+1,tr,max(l,tm+1),r);
+        return combine(resl,resr);
+    }
+ 
+    // UI
+    void update(ll pos,ll x)
+    {
+        update(1,0,n-1,pos,pos,x);
+    }
+    void update(ll l,ll r,ll x)
+    {
+        update(1,0,n-1,l,r,x);
+    }
+    ll query(ll l,ll r)
+    {
+        return query(1,0,n-1,l,r);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segtree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,67 @@
+<snippet>
+	<content><![CDATA[
+struct DSU
+{
+    int n,x;
+    vi p,r,sz;
+    DSU(int N)
+    {
+        n=N;
+        x=N-1;
+        sz.assign(N,1);
+        p.assign(N,0);
+        r.assign(N,1);
+        for(int i=0;i<N;i++)
+            p[i]=i;
+    }
+    int findset(int i)
+    {
+        return (p[i]==i)?i:(p[i]=findset(p[i]));
+    }
+    bool issameset(int i,int j)
+    {
+        return findset(i)==findset(j);
+    }
+    void unionset(int i,int j)
+    {
+        int p1=findset(i);
+        int p2=findset(j);
+        if(p1!=p2)
+        {
+            x--;
+            if(r[p1]>=r[p2])
+            {
+                p[p2]=p1;
+                sz[p1]+=sz[p2];
+                if(r[p1]==r[p2])
+                    r[p1]++;
+            }
+            else
+            {
+                p[p1]=p2;
+                sz[p2]+=sz[p1];
+            }
+        }
+    }
+    void disp()
+    {
+        for(int i=0;i<n;i++)
+            cout<<p[i]<<' ';
+        cout<<endl;
+    }
+
+    int getsize(int i){
+        return sz[findset(i)];
+    }
+    int noofdisjointsets(){
+        return x;
+    }
+
+};
+]]></content>
+	 <tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>hello</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
