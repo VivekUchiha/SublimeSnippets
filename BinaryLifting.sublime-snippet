@@ -15,27 +15,6 @@ struct Tree{
         preprocess(0);
     }
 
-    Tree(ll N){
-        n = N;
-        adj.resize(n);
-        getedges();
-        preprocess(0);
-    }
-
-    void connect(ll x, ll y){
-        x--;y--;
-        adj[x].pb(y);
-        adj[y].pb(x);
-    }
-
-    void getedges(){
-        ll x,y;
-        for(int i=0;i<n-1;i++){
-            cin>>x>>y;
-            connect(x,y);
-        }
-    }
-
     void dfs(ll v, ll p)
     {
         if(v!=p){

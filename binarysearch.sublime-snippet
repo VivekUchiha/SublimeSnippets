@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+ll lo=$1,hi=$2,mid;
+while(hi>lo){
+    mid = (hi+lo)/2;
+    
+    //Needed When Finding Max element which satisfies condition
+    if(hi==lo+1){
+        mid = hi;
+    }
+    $3
+    
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binarySearch</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

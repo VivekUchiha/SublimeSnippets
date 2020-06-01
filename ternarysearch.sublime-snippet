@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+while (r - l > 3) {
+    ll m1 = l + (r - l) / 3;
+    ll m2 = r - (r - l) / 3;
+    ll f1 = f(m1);      //evaluates the function at m1
+    ll f2 = f(m2);      //evaluates the function at m2
+    if (f1 < f2)
+        l = m1;
+    else if(f1 > f2){
+        r = m2;
+    }
+    else{
+        l = m1;
+        r = m2;
+    }
+}
+// Check l, l+1, l+2
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ternarysearch</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

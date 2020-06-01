@@ -13,11 +13,12 @@ using namespace std;
 #define gcd(a,b) __gcd(a,b)
 #define all(x)  x.begin(),x.end()
 #define isOn(S, j) (S & (1 << j))
+#define endl '\n'
 #define setBit(S, j) (S |= (1 << j))
 #define clearBit(S, j) (S &= ~(1 << j))
 #define toggleBit(S, j) (S ^= (1 << j))
-#define print(x)    for(auto it=x.begin();it!=x.end();it++) cout<<*it<<' '; cout<<endl;
-#define printii(x)  for(auto it=x.begin();it!=x.end();it++) cout<<*it.F<<' '<<*it.S<<'\t';  cout<<endl;
+#define print(x)    for(auto it:x) cout<<it<<' '; cout<<endl;
+#define printii(x)  for(auto it:x) cout<<it.F<<' '<<it.S<<'\t';  cout<<endl;
 #define in(x,n)   for(int e=0;e<n;e++){ll y;cin>>y;x.pb(y);}
 
 #define vi vector<ll>
