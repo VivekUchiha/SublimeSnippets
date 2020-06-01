@@ -1,0 +1,68 @@
+<snippet>
+	<content><![CDATA[
+struct mint {
+    typedef decay<decltype(MOD)>::type T; 
+    T v; explicit operator T() const { return v; }
+    mint() { v = 0; }
+    mint(ll _v) { 
+        v = (-MOD < _v && _v < MOD) ? _v : _v % MOD;
+        if (v < 0) v += MOD;
+    }
+    friend bool operator==(const mint& a, const mint& b) { 
+        return a.v == b.v; }
+    friend bool operator!=(const mint& a, const mint& b) { 
+        return !(a == b); }
+    friend bool operator<(const mint& a, const mint& b) { 
+        return a.v < b.v; }   
+    mint& operator+=(const mint& m) { 
+        if ((v += m.v) >= MOD) v -= MOD; 
+        return *this; }
+    mint& operator-=(const mint& m) { 
+        if ((v -= m.v) < 0) v += MOD; 
+        return *this; }
+    mint& operator*=(const mint& m) { 
+        v = (ll)v*m.v%MOD; return *this; }
+    mint& operator/=(const mint& m) { return (*this) *= inv(m); }
+    friend mint pow(mint a, ll p) {
+        mint ans = 1; assert(p >= 0);
+        for (; p; p /= 2, a *= a) if (p&1) ans *= a;
+        return ans;
+    }
+    friend mint inv(const mint& a) { assert(a.v != 0); 
+        return pow(a,MOD-2); }
+        
+    mint operator-() const { return mint(-v); }
+    mint& operator++() { return *this += 1; }
+    mint& operator--() { return *this -= 1; }
+    friend mint operator+(mint a, const mint& b) { return a += b; }
+    friend mint operator-(mint a, const mint& b) { return a -= b; }
+    friend mint operator*(mint a, const mint& b) { return a *= b; }
+    friend mint operator/(mint a, const mint& b) { return a /= b; }
+};
+
+struct bincoeff {
+    ll n;
+    vector<mint> fact;
+
+    bincoeff(ll N){
+        n = N;
+        fact.resize(n+1);
+        fact[0] = 1;
+        for(ll i=1;i<=n;i++){
+            fact[i] = fact[i-1]*i;
+        }
+    }
+
+    mint ncr(ll n, ll r){
+        if(n<r){
+            return 0;
+        }
+        return (fact[n]/(fact[n-r]*fact[r]));
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binarycoefficients</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
