@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+const int RANDOM = chrono::high_resolution_clock::now().time_since_epoch().count();
+struct chash {
+    int operator()(int x) const { return x ^ RANDOM; }
+};
+gp_hash_table<key, int, chash> table;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hashtable</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

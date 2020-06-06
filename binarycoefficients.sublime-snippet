@@ -40,26 +40,20 @@ struct mint {
     friend mint operator/(mint a, const mint& b) { return a /= b; }
 };
 
-struct bincoeff {
-    ll n;
-    vector<mint> fact;
+vector<mint> fact;
 
-    bincoeff(ll N){
-        n = N;
-        fact.resize(n+1);
-        fact[0] = 1;
-        for(ll i=1;i<=n;i++){
-            fact[i] = fact[i-1]*i;
-        }
+void bincoeff(ll n){
+    fact.resize(n+1);
+    fact[0] = 1;
+    for(ll i=1;i<=n;i++){
+        fact[i] = fact[i-1]*i;
     }
+}
 
-    mint ncr(ll n, ll r){
-        if(n<r){
-            return 0;
-        }
-        return (fact[n]/(fact[n-r]*fact[r]));
-    }
-};
+mint ncr(ll n, ll r){
+    if((n<0)||(r<0)||((n-r)<0))return 0;
+    return (fact[n]/(fact[n-r]*fact[r]));
+}
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>binarycoefficients</tabTrigger>
