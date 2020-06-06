@@ -5,7 +5,7 @@ struct Line {
     bool operator<(const Line& o) const { return k < o.k; }
     bool operator<(ll x) const { return p < x; }
 };
-
+ 
 struct LineContainer : multiset<Line, less<>> {
     // (for doubles, use inf = 1/.0, div(a,b) = a/b)
     const ll inf = LLONG_MAX;
@@ -17,6 +17,7 @@ struct LineContainer : multiset<Line, less<>> {
         else x->p = div(y->m - x->m, x->k - y->k);
         return x->p >= y->p;
     }
+    // y = kx + m
     void add(ll k, ll m) {
         auto z = insert({k, m, 0}), y = z++, x = y;
         while (isect(y, z)) z = erase(z);
@@ -24,6 +25,7 @@ struct LineContainer : multiset<Line, less<>> {
         while ((y = x) != begin() && (--x)->p >= y->p)
             isect(x, erase(y));
     }
+    // query max at position x
     ll query(ll x) {
         assert(!empty());
         auto l = *lower_bound(x);
