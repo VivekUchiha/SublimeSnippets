@@ -1,21 +1,16 @@
 <snippet>
 	<content><![CDATA[
-while (r - l > 3) {
-    ll m1 = l + (r - l) / 3;
-    ll m2 = r - (r - l) / 3;
-    ll f1 = f(m1);      //evaluates the function at m1
-    ll f2 = f(m2);      //evaluates the function at m2
-    if (f1 < f2)
-        l = m1;
-    else if(f1 > f2){
-        r = m2;
+//For finding max val. For min change < to >.
+int ternSearch(int a, int b, F f) {
+    assert(a <= b);
+    while (b - a >= 5) {
+        int mid = (a + b) / 2;
+        if (f(mid) < f(mid+1)) a = mid; // (A)
+        else b = mid+1;
     }
-    else{
-        l = m1;
-        r = m2;
-    }
+    rep(i,a+1,b+1) if (f(a) < f(i)) a = i; // (B)
+    return a;
 }
-// Check l, l+1, l+2
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>ternarysearch</tabTrigger>

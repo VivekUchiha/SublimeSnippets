@@ -39,7 +39,7 @@ int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n,x,t,m,y,z;
+    ll n,x,t,m,y,z,k;
     cin>>t;
     while(t--){
         $1
