@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+const int maxc = 2;
+
+struct TrieNode
+{
+    array<TrieNode*,maxc> children;
+    int cnt;
+    bool isEnd;
+
+    static TrieNode* newNode()
+    {
+        TrieNode *p=new TrieNode;
+        p->isEnd=false;
+        p->cnt=0;
+        p->children.fill(NULL);
+        return p;
+    }
+    static void addString(TrieNode *root,string str)
+    {
+        TrieNode *p=root;
+        for(int i=0;i<str.length();i++)
+        {
+            int ch=str[i]-'A';
+            if(!(p->children[ch]))
+                p->children[ch]=newNode();
+            p=p->children[ch];
+        }
+        p->cnt++;
+        p->isEnd=true;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>trie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

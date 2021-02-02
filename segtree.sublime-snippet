@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+struct SegTree{
+    typedef ll T;
+    static constexpr T unit = -1*LLMAX;
+    T f(T a, T b){
+        return max(a, b);
+    }
+    vector<T> s; int n;
+    SegTree(int n = 0, T def = unit) : s(2*n, def), n(n) {}
+    SegTree(vector<T> v){
+        n = v.size();
+        s.assign(2*n,unit);
+        for(int i=0;i<n;i++){
+            update(i,v[i]);
+        }
+    }
+    void update(int pos, T val) {
+        for(s[pos+=n]=val;pos/=2;){
+            s[pos] = f(s[pos * 2], s[pos * 2 + 1]);
+        }
+    }
+    T query(int b, int e){e++;
+        T ra = unit, rb = unit;
+        for (b += n, e += n; b < e; b /= 2, e /= 2){
+            if (b % 2) ra = f(ra, s[b++]);
+            if (e % 2) rb = f(s[--e], rb);
+        }
+        return f(ra, rb);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segmenttree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
